@@ -1,0 +1,19 @@
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $site = $extension.find('#site');
+var $map = $extension.find('#map');
+var $map_row = $map.closest('.row');
+
+$map.readonly(true); // Set the map to read-only
+$map_row.addClass('hide'); // Hide the map initially
+
+// Display the selected site in Google Maps
+$site.on('change', function() {
+  var coordinates = $site.val() !== ''
+  	? $site.data('item').custom_fields['Coordinates'] || ''
+  	: '';
+
+  $map.val(coordinates);
+  $map_row.setClass('hide', !coordinates);
+});

@@ -1,0 +1,9 @@
+<div class="row vertical">
+  <label for="site" title="Site">Site</label>
+  <div id="site" data-custom-view="sites"></div>
+</div>
+
+<div id="map_row" class="row vertical">
+  <label for="map" title="Google Maps">Map</label>
+  <div id="map" class="google-maps" data-zoom="8"></div>
+</div>

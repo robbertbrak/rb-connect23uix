@@ -1,0 +1,8 @@
+<div class="row vertical">
+  <label for="map" title="Map">Map</label>
+  <div id="map" class="google-maps"></div>
+</div>
+
+<div class="row vertical hide" data-filterable data-hidden>
+  <input id="coordinates" type="text" autocomplete="off" class="hide" data-filterable-name="Coordinates">
+</div>

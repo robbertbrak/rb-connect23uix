@@ -1,0 +1,54 @@
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $sections = $extension.find('.section');
+var $hideOrderLink = $extension.find('a.hide-order');
+var $addOrderLink = $extension.find('#add_order');
+
+function atLeastOneGuest() {
+  $hideOrderLink.toggle($sections.filter(':not(.hidden-section)').length > 1);
+}
+
+ITRP.hooks.register('after-prefill', function() {
+  $sections.filter('.hidden-section').each(function() {
+    var $section = $(this);
+    if (ITRP.hasFormData($section)) {
+      $section.removeClass('hidden-section');
+    }
+  });
+
+  atLeastOneGuest();
+});
+
+$addOrderLink.on('click', function(event) {
+  event.preventDefault();
+  var $hiddenSections = $sections.filter('.hidden-section');
+  if ($hiddenSections.length === 1) {
+    // Last one left, hide the add-order option.
+    $(this).hide();
+  }
+  var $lastVisibleSection = $sections.filter(':not(.hidden-section)').last();
+  var lastDate = $lastVisibleSection.find('input.date').val();
+
+  var $nextEmptySection = $hiddenSections.first();
+  $nextEmptySection.removeClass('hidden-section');
+  $nextEmptySection.find('input.date').val(lastDate).trigger('change');
+
+  atLeastOneGuest();
+});
+
+$hideOrderLink.on('click', function(event) {
+  event.preventDefault();
+  var $section = $(this).closest('.section');
+
+  // Hide section + clear form data
+  $section.addClass('hidden-section');
+  ITRP.clearFormData($section);
+
+  // More sections available, show the add-order option.
+  if ($sections.filter('.hidden-section').length > 0) {
+    $addOrderLink.show();
+  }
+
+  atLeastOneGuest();
+});

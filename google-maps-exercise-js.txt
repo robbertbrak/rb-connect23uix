@@ -1,0 +1,29 @@
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $site = $extension.find('#site');
+var $map = $extension.find('#map');
+var $map_row = $map.closest('.row');
+
+// Set the map to read-only
+$map.readonly(true);
+
+// Display the selected site in Google Maps
+$site.on('change', function() {
+  if ($site.val() === '') {
+    $map_row.hide();
+  } else if ($site.val() === '21') {  // Boston
+    $map_row.show();
+    $map.val('42.35635590627863,-71.05467369039637');
+  } else if ($site.val() === '20') {  // Chicago
+    $map_row.show();
+    $map.val('41.80014278212175,-87.58900170760779');
+  } else if ($site.val() === '19') {  // New York
+    $map_row.show();
+    $map.val('40.78465581754781,-73.95433407140071');
+  } else if ($site.val() === '17') {  // Houston
+    $map_row.show();
+    $map.val('29.74757352449744,-95.45033247355043');
+  }
+  $map.trigger('change');
+}).trigger('change');

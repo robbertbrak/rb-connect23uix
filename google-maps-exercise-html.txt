@@ -1,0 +1,15 @@
+<div class="row vertical">
+  <label for="site" title="Site">Site</label>
+  <select id="site" class="required">
+    <option value=""></option>
+    <option value="21">Boston - Widget Research and Development Center</option>
+    <option value="20">Chicago - Widget Manufacturing Center</option>
+    <option value="17">Houston - Widget Data Center</option>
+    <option value="19">New York - Widget International Headquarters</option>
+  </select>
+</div>
+
+<div id="map_row" class="row vertical">
+  <label for="map" title="Google Maps">Map</label>
+  <div id="map" class="google-maps" data-zoom="8"></div>
+</div>

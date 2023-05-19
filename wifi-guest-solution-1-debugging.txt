@@ -1,0 +1,37 @@
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $sections = $('.section');
+var $hideOrderLink = $('a.hide-order');
+var $addOrderLink = $('#add_order');
+
+$sections.filter('.hidden-section').each(function() {
+  var $section = $(this);
+  if (ITRP.hasFormData($section)) {
+    $section.removeClass('hidden-section');
+  }
+});
+
+$addOrderLink.on('click', function(event) {
+  event.preventDefault();
+  var $hiddenSections = $sections.filter('.hidden-section');
+  if ($hiddenSections.length === 1) {
+    // Last one left, hide the add-order option.
+    $(this).hide();
+  }
+  $hiddenSections.first().removeClass('hidden-section');
+});
+
+$hideOrderLink.on('click', function(event) {
+  event.preventDefault();
+  var $section = $(this).closest('.section');
+
+  // Hide section + clear form data
+  $section.addClass('hidden-section');
+  ITRP.clearFormData($section);
+
+  // More sections available, show the add-order option.
+  if ($sections.filter('.hidden-section').length > 0) {
+    $addOrderLink.show();
+  }
+});

@@ -1,0 +1,72 @@
+<div class="section" id="section1">
+  <span class="section-header">Guest 1</span>
+
+  <div class="row vertical">
+    <label for="name1">Full name</label>
+    <input id="name1" type="text" autocomplete="off" class="required">
+  </div>
+
+  <div class="row vertical">
+    <label for="date1">Date</label>
+    <input id="date1" type="text" autocomplete="off" class="required date">
+  </div>
+
+  <div class="row vertical checkbox">
+    <input id="password1" type="checkbox">
+    <label for="password1">WiFi password required</label>
+  </div>
+
+  <div class="row vertical">
+  	<a class="hide-order" href="#">Hide</a>
+  </div>
+</div>
+
+<div class="section hidden-section" id="section2">
+  <span class="section-header">Guest 2</span>
+
+  <div class="row vertical">
+    <label for="name2">Full name</label>
+    <input id="name2" type="text" autocomplete="off" class="required">
+  </div>
+
+  <div class="row vertical">
+    <label for="date2">Date</label>
+    <input id="date2" type="text" autocomplete="off" class="required date">
+  </div>
+
+  <div class="row vertical checkbox">
+    <input id="password2" type="checkbox">
+    <label for="password2">WiFi password required</label>
+  </div>
+
+  <div class="row vertical">
+  	<a class="hide-order" href="#">Hide</a>
+  </div>
+</div>
+
+<div class="section hidden-section" id="section3">
+  <span class="section-header">Guest 3</span>
+
+  <div class="row vertical">
+    <label for="name3">Full name</label>
+    <input id="name3" type="text" autocomplete="off" class="required">
+  </div>
+
+  <div class="row vertical">
+    <label for="date3">Date</label>
+    <input id="date3" type="text" autocomplete="off" class="required date">
+  </div>
+
+  <div class="row vertical checkbox">
+    <input id="password3" type="checkbox">
+    <label for="password3">WiFi password required</label>
+  </div>
+
+  <div class="row vertical">
+  	<a class="hide-order" href="#">Hide</a>
+  </div>
+</div>
+
+<div class="row vertical">
+  <a id="add_order" href="#">Add another</a>
+</div>

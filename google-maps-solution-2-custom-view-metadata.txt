@@ -1,0 +1,63 @@
+// --- Site UI extension HTML --- //
+
+
+<div class="row vertical">
+  <label for="map" title="Map">Map</label>
+  <div id="map" class="google-maps"></div>
+</div>
+
+<div class="row vertical hide" data-filterable data-hidden>
+  <input id="coordinates" type="text" autocomplete="off" class="hide" data-filterable-name="Coordinates">
+</div>
+
+
+// --- Site UI extension JS --- //
+
+
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $map = $extension.find('#map');
+var $coordinates = $extension.find('#coordinates');
+
+$map.on('change', function() {
+  $coordinates.val($map.val());
+});
+
+
+// --- Request Template UI extension HTML --- //
+
+
+<div class="row vertical">
+  <label for="site" title="Site">Site</label>
+  <div id="site" data-custom-view="sites"></div>
+</div>
+
+<div id="map_row" class="row vertical">
+  <label for="map" title="Google Maps">Map</label>
+  <div id="map" class="google-maps" data-zoom="8"></div>
+</div>
+
+
+// --- Request Template UI extension JS --- //
+
+
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $site = $extension.find('#site');
+var $map = $extension.find('#map');
+var $map_row = $map.closest('.row');
+
+$map.readonly(true); // Set the map to read-only
+$map_row.addClass('hide'); // Hide the map initially
+
+// Display the selected site in Google Maps
+$site.on('change', function() {
+  var coordinates = $site.val() !== ''
+  	? $site.data('item').custom_fields['Coordinates'] || ''
+  	: '';
+
+  $map.val(coordinates);
+  $map_row.setClass('hide', !coordinates);
+});

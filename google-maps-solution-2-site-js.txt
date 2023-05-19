@@ -1,0 +1,9 @@
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $map = $extension.find('#map');
+var $coordinates = $extension.find('#coordinates');
+
+$map.on('change', function() {
+  $coordinates.val($map.val());
+});

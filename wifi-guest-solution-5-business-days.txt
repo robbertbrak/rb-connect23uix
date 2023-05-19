@@ -1,0 +1,60 @@
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI extension container with custom HTML
+
+var $sections = $extension.find('.section');
+var $hideOrderLink = $extension.find('a.hide-order');
+var $addOrderLink = $extension.find('#add_order');
+var $dates = $extension.find('input.date');
+
+// Helper function to calculate the date +n+ business days from the given date.
+function addBusinessDays(date, days) {
+  var newDate = new Date(date.getTime());
+  while (days > 0) {
+    newDate.setDate(newDate.getDate() + 1);
+    if (newDate.getDay() !== 0 && newDate.getDay() !== 6) {
+      days--;
+    }
+  }
+  return newDate;
+}
+
+// Make sure that the date is at least 5 business days from now.
+var minDate = addBusinessDays(new Date(), 5);
+$dates
+  .dateEntry('change', { minDate: minDate })
+  .datepick('option', { minDate: minDate });
+
+$dates.datepick('option', { onDate: $.datepick.noWeekends });
+
+ITRP.hooks.register('after-prefill', function() {
+  $sections.filter('.hidden-section').each(function() {
+    var $section = $(this);
+    if (ITRP.hasFormData($section)) {
+      $section.removeClass('hidden-section');
+    }
+  });
+});
+
+$addOrderLink.on('click', function(event) {
+  event.preventDefault();
+  var $hiddenSections = $sections.filter('.hidden-section');
+  if ($hiddenSections.length === 1) {
+    // Last one left, hide the add-order option.
+    $(this).hide();
+  }
+  $hiddenSections.first().removeClass('hidden-section');
+});
+
+$hideOrderLink.on('click', function(event) {
+  event.preventDefault();
+  var $section = $(this).closest('.section');
+
+  // Hide section + clear form data
+  $section.addClass('hidden-section');
+  ITRP.clearFormData($section);
+
+  // More sections available, show the add-order option.
+  if ($sections.filter('.hidden-section').length > 0) {
+    $addOrderLink.show();
+  }
+});
