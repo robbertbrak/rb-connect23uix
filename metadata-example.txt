@@ -1,0 +1,33 @@
+First create a custom view named "People" and add "Job title" to the metadata fields.
+Next, create a UI extension as follows:
+
+// --- HTML --- //
+
+<div class="row vertical" data-internal>
+  <label for="person" title="Person">Person</label>
+  <div id="person" data-custom-view="people"></div>
+</div>
+
+<div class="row vertical" data-internal>
+  <label for="job_title" title="Job title">Job title</label>
+  <input id="job_title" type="text" autocomplete="off">
+</div>
+
+// --- Javascript --- //
+
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI Extension container with custom HTML
+
+var $person = $extension.find('#person');
+var $job_title = $extension.find('#job_title');
+
+$job_title.readonly(true);
+
+$person.on('change', function() {
+  if ($person.val() === '') {
+    $job_title.val('');
+  } else {
+    var metadata = $person.data('item');
+    $job_title.val(metadata.job_title);
+  }
+});

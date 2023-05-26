@@ -1,0 +1,104 @@
+// --- HTML --- //
+
+<div class="row vertical" data-internal>
+  <label for="choose_an_option" title="Choose an option">Choose an option</label>
+  <select id="choose_an_option">
+    <option value=""></option>
+    <option value="value_1">Value 1</option>
+    <option value="value_2">Value 2</option>
+    <option value="value_3">Value 3</option>
+  </select>
+</div>
+
+<div class="row vertical" data-internal>
+  <label for="a" title="A">A</label>
+  <input id="a" type="text" autocomplete="off">
+</div>
+<div class="row vertical" data-internal>
+  <label for="b" title="B">B</label>
+  <input id="b" type="text" autocomplete="off">
+</div>
+<div class="row vertical" data-internal>
+  <label for="c" title="C">C</label>
+  <input id="c" type="text" autocomplete="off">
+</div>
+<div class="row vertical" data-internal>
+  <label for="d" title="D">D</label>
+  <input id="d" type="text" autocomplete="off">
+</div>
+<div class="row vertical" data-internal>
+  <label for="e" title="E">E</label>
+  <input id="e" type="text" autocomplete="off">
+</div>
+
+
+
+// --- Original Javascript WITHOUT lookup table --- //
+
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI Extension container with custom HTML
+
+var $choice = $('#choose_an_option', $extension);
+var $a = $('#a', $extension);
+var $b = $('#b', $extension);
+var $c = $('#c', $extension);
+var $d = $('#d', $extension);
+var $e = $('#e', $extension);
+
+$choice.on('change', function() {
+  if ($choice.val() === '') {
+    $a.closest('.row').hide();
+    $b.closest('.row').hide();
+    $c.closest('.row').hide();
+    $d.closest('.row').hide();
+    $e.closest('.row').hide();
+  } else if ($choice.val() === 'value_1') {
+    $a.closest('.row').show();
+    $b.closest('.row').hide();
+    $c.closest('.row').show();
+    $d.closest('.row').show();
+    $e.closest('.row').show();
+    $c.required(true);
+    $d.required(false);
+  } else if ($choice.val() === 'value_2') {
+    $a.closest('.row').hide();
+    $b.closest('.row').show();
+    $c.closest('.row').show();
+    $d.closest('.row').show();
+    $e.closest('.row').hide();
+    $c.required(false);
+    $d.required(true);
+  } else if ($choice.val() === 'value_3') {
+    $a.closest('.row').show();
+    $b.closest('.row').show();
+    $c.closest('.row').hide();
+    $d.closest('.row').hide();
+    $e.closest('.row').show();
+  } // ... et cetera
+}).trigger('change');
+
+
+
+// --- After introducing a lookup table --- //
+
+var $ = ITRP.$;            // jQuery
+var $extension = $(this);  // The UI Extension container with custom HTML
+
+var $select = $('#choose_an_option', $extension);
+var $fields = $('#a, #b, #c, #d, #e', $extension);
+
+var config = {
+  'value_1': { show: ['#a', '#c', '#d', '#e'], required: ['#c'] },
+  'value_2': { show: ['#b', '#c', '#d'], required: ['#d'] },
+  'value_3': { show: ['#a', '#b', '#e'], required: [] },
+  '': { show: [], required: [] },
+};
+
+$select.on('change', function() {
+  $fields.closest('.row').hide();
+  $fields.required(false);
+
+  var value = $select.val();
+  $(config[value]['show'].join(','), $extension).closest('.row').show();
+  $(config[value]['required'].join(','), $extension).required(true);
+}).trigger('change');
